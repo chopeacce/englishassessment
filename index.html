@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>수능 영어 정밀 진단 | Jenny Teacher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1c2b45;
+  --navy-deep:#131f33;
+  --brass:#b08d57;
+  --brass-light:#d4b483;
+  --oxblood:#6b2530;
+  --paper:#f4f1ea;
+  --ink:#2a2f38;
+  --line:#d8d2c4;
+}
+*{box-sizing:border-box}
+body{
+  font-family:'Noto Sans KR',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  background:var(--navy-deep);
+  color:var(--ink);
+  margin:0;padding:0;
+  display:flex;justify-content:center;
+  min-height:100vh;
+}
+.container{
+  width:100%;max-width:500px;
+  background:var(--paper);
+  display:flex;flex-direction:column;
+  min-height:100vh;
+}
+header{
+  background:var(--navy);
+  color:var(--paper);
+  padding:22px 20px 18px;
+  text-align:center;
+  border-bottom:3px solid var(--brass);
+}
+.header-eyebrow{
+  font-size:.68rem;letter-spacing:.28em;
+  color:var(--brass-light);
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+header h1{
+  margin:0;
+  font-family:'Noto Serif KR',serif;
+  font-size:1.25rem;font-weight:700;
+  letter-spacing:.02em;
+}
+.content{padding:24px 20px 32px;flex-grow:1;display:flex;flex-direction:column}
+.hidden{display:none!important}
+
+/* ── 시작 화면 ── */
+#start-screen{text-align:center;margin-top:36px}
+.seal{
+  width:88px;height:88px;margin:0 auto 22px;
+  border:2px solid var(--brass);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Noto Serif KR',serif;font-weight:700;
+  color:var(--brass);font-size:.62rem;letter-spacing:.1em;
+  line-height:1.5;text-align:center;
+}
+#start-screen h2{
+  font-family:'Noto Serif KR',serif;
+  font-size:1.45rem;color:var(--navy);
+  margin:0 0 12px;
+}
+#start-screen p{color:#6b6f78;line-height:1.75;font-size:.92rem;margin-bottom:8px}
+.start-meta{
+  display:flex;justify-content:center;gap:18px;
+  margin:22px 0 28px;
+  font-size:.78rem;color:var(--navy);
+}
+.start-meta span{border-top:1px solid var(--line);padding-top:8px;letter-spacing:.04em}
+
+/* ── 버튼 ── */
+.btn{
+  background:var(--navy);color:var(--paper);
+  border:none;padding:16px 20px;border-radius:4px;
+  font-size:1.02rem;font-weight:700;cursor:pointer;width:100%;
+  font-family:inherit;letter-spacing:.03em;
+  transition:background .2s;
+}
+.btn:hover{background:var(--navy-deep)}
+.btn:focus-visible{outline:3px solid var(--brass);outline-offset:2px}
+.btn-dm{
+  background:var(--oxblood);
+  border:1px solid var(--brass);
+  margin-top:10px;
+}
+.btn-dm:hover{background:#571d26}
+.btn-ghost{
+  background:transparent;color:#8a8d94;
+  border:1px solid var(--line);margin-top:10px;font-weight:500;
+}
+.btn-ghost:hover{background:#ece8de}
+
+/* ── 퀴즈 화면 ── */
+.file-bar{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:14px;
+}
+.file-label{
+  font-size:.68rem;letter-spacing:.22em;color:var(--brass);
+  font-weight:700;text-transform:uppercase;
+}
+.type-stamp{
+  font-size:.72rem;font-weight:700;color:var(--oxblood);
+  border:1px solid var(--oxblood);border-radius:2px;
+  padding:3px 8px;letter-spacing:.08em;
+}
+.question-box{
+  background:#fff;
+  padding:20px 18px;
+  border:1px solid var(--line);
+  border-left:3px solid var(--brass);
+  margin-bottom:18px;
+  font-size:.95rem;line-height:1.75;
+}
+.question-box .stem{font-weight:700;color:var(--navy);display:block;margin-bottom:12px}
+.question-box u{text-underline-offset:3px}
+.options{display:flex;flex-direction:column;gap:9px}
+.option{
+  background:#fff;border:1px solid var(--line);
+  padding:13px 15px;border-radius:4px;
+  text-align:left;font-size:.9rem;line-height:1.55;cursor:pointer;
+  font-family:inherit;color:var(--ink);
+  transition:border-color .15s,background .15s;
+}
+.option:hover{border-color:var(--brass)}
+.option.selected{
+  background:var(--navy);color:var(--paper);
+  border-color:var(--navy);
+}
+.option:focus-visible{outline:3px solid var(--brass);outline-offset:1px}
+
+/* ── 결과 화면 ── */
+#result-screen{text-align:center;margin-top:16px}
+.result-eyebrow{
+  font-size:.68rem;letter-spacing:.28em;color:var(--brass);
+  font-weight:700;margin-bottom:14px;text-transform:uppercase;
+}
+.score-circle{
+  width:118px;height:118px;border-radius:50%;
+  background:var(--navy);color:var(--paper);
+  border:3px solid var(--brass);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  margin:0 auto 22px;
+}
+.score-circle .num{font-family:'Noto Serif KR',serif;font-size:2.3rem;font-weight:700;line-height:1}
+.score-circle .of{font-size:.75rem;color:var(--brass-light);margin-top:4px;letter-spacing:.1em}
+.type-report{
+  background:#fff;border:1px solid var(--line);
+  margin:0 0 20px;text-align:left;
+}
+.type-report .tr-head{
+  background:var(--navy);color:var(--paper);
+  font-size:.72rem;letter-spacing:.2em;font-weight:700;
+  padding:9px 14px;text-transform:uppercase;
+}
+.tr-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:11px 14px;border-top:1px solid var(--line);
+  font-size:.88rem;
+}
+.tr-row:first-of-type{border-top:none}
+.tr-mark{font-weight:700;font-size:.82rem;letter-spacing:.05em}
+.tr-mark.ok{color:var(--navy)}
+.tr-mark.miss{color:var(--oxblood)}
+.feedback-text{
+  font-size:.94rem;line-height:1.8;margin-bottom:22px;
+  text-align:left;background:#fff;
+  border:1px solid var(--line);border-left:3px solid var(--oxblood);
+  padding:18px 16px;
+}
+.feedback-text strong{color:var(--navy);font-family:'Noto Serif KR',serif}
+.result-note{font-size:.82rem;color:#8a8d94;line-height:1.7;margin-bottom:18px}
+@media (prefers-reduced-motion:no-preference){
+  .screen-in{animation:fadeUp .35s ease}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="header-eyebrow">Private Diagnosis · Case File</div>
+    <h1>수능 영어 정밀 진단</h1>
+  </header>
+
+  <div class="content">
+
+    <!-- 시작 화면 -->
+    <div id="start-screen" class="screen-in">
+      <div class="seal">JENNY<br>TEACHER</div>
+      <h2>지금 이 감(感),<br>1등급의 감각일까?</h2>
+      <p>실제 수능 5대 핵심 유형으로<br>현재 실력과 취약 유형을 정밀 진단합니다.</p>
+      <div class="start-meta">
+        <span>문항 5</span><span>약 5분</span><span>유형별 분석 제공</span>
+      </div>
+      <button class="btn" onclick="startTest()">진단 시작하기</button>
+    </div>
+
+    <!-- 퀴즈 화면 -->
+    <div id="quiz-screen" class="hidden">
+      <div class="file-bar">
+        <span class="file-label" id="progress">File 1 of 5</span>
+        <span class="type-stamp" id="type-stamp">빈칸추론</span>
+      </div>
+      <div class="question-box" id="question-text"></div>
+      <div class="options" id="options-container"></div>
+      <button class="btn hidden" id="next-btn" onclick="nextQuestion()" style="margin-top:20px;">다음 문항</button>
+    </div>
+
+    <!-- 결과 화면 -->
+    <div id="result-screen" class="hidden">
+      <div class="result-eyebrow">Diagnosis Report</div>
+      <div class="score-circle">
+        <span class="num" id="score-display">0</span>
+        <span class="of">OUT OF 5</span>
+      </div>
+
+      <div class="type-report">
+        <div class="tr-head">유형별 진단</div>
+        <div id="type-rows"></div>
+      </div>
+
+      <div class="feedback-text" id="feedback-text"></div>
+
+      <p class="result-note">
+        틀린 유형이 왜 틀렸는지 — 그 원인 분석부터가 수업입니다.<br>
+        결과 화면을 캡처해서 DM으로 보내주세요.
+      </p>
+      <button class="btn btn-dm" onclick="goToDM()">결과 캡처해서 DM 상담하기</button>
+      <button class="btn btn-ghost" onclick="location.reload()">다시 풀기</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ⚠️ 본인 인스타그램 아이디로 교체하세요 (예: 'jenny.ssam')
+const INSTAGRAM_ID = 'thelogicc_engtutor';
+
+const questions = [
+  {
+    type: "빈칸추론",
+    q: `<span class="stem">1. 다음 빈칸에 들어갈 말로 가장 적절한 것은?</span>
+The value of a scientific theory lies not in its ability to confirm what we already believe, but in its capacity to be proven wrong. A theory that can accommodate every possible observation tells us nothing about the world, because it excludes nothing. It is precisely by ____________ that a theory earns its explanatory power.`,
+    options: [
+      "① forbidding certain outcomes",
+      "② embracing every perspective",
+      "③ avoiding empirical testing",
+      "④ appealing to expert authority",
+      "⑤ simplifying its own assumptions"
+    ],
+    answer: 0
+  },
+  {
+    type: "어법",
+    q: `<span class="stem">2. 다음 글의 밑줄 친 부분 중, 어법상 <u>틀린</u> 것은?</span>
+Many people assume ①<u>that</u> creativity is a gift reserved for a select few. Recent studies, however, suggest that creative thinking is a skill that can ②<u>be developed</u> through deliberate practice. In one experiment, students ③<u>encouraging</u> to question their assumptions produced far more original ideas than ④<u>those</u> trained merely to memorize facts. What matters, then, is not talent itself but the environment ⑤<u>in which</u> talent is cultivated.`,
+    options: ["①", "②", "③", "④", "⑤"],
+    answer: 2
+  },
+  {
+    type: "문장삽입",
+    q: `<span class="stem">3. 글의 흐름으로 보아, 주어진 문장이 들어가기에 가장 적절한 곳은?</span>
+<b>[주어진 문장]</b> This shift, however, came at a cost that few had anticipated.<br><br>
+For most of human history, information was scarce and expensive. ( ① ) Books were copied by hand, and knowledge traveled no faster than a horse. ( ② ) The printing press, and later the Internet, made information abundant and nearly free. ( ③ ) With infinite content competing for our limited attention, the scarce resource is no longer information itself but the capacity to focus on it. ( ④ ) In other words, we traded scarcity of knowledge for scarcity of attention. ( ⑤ )`,
+    options: ["①", "②", "③", "④", "⑤"],
+    answer: 2
+  },
+  {
+    type: "함의추론",
+    q: `<span class="stem">4. 밑줄 친 부분이 다음 글에서 의미하는 바로 가장 적절한 것은?</span>
+A veteran chess master was once asked how many moves ahead she calculated. "Only one," she replied, "but it is always the right one." Her answer captures what separates experts from novices: novices see a forest of possibilities and try to chop down every tree, while experts <u>walk straight to the one tree that bears fruit</u>.`,
+    options: [
+      "① consider every option with equal care",
+      "② rely on luck rather than analysis",
+      "③ instantly identify the most promising option",
+      "④ avoid making difficult decisions",
+      "⑤ imitate the strategies of rival players"
+    ],
+    answer: 2
+  },
+  {
+    type: "어휘",
+    q: `<span class="stem">5. 다음 글의 밑줄 친 낱말 중, 문맥상 쓰임이 적절하지 <u>않은</u> 것은?</span>
+Constraints are often seen as the enemy of creativity, but research suggests the opposite. When resources are ①<u>abundant</u>, organizations rarely question their existing routines. Under strict limitations, however, teams are ②<u>forced</u> to abandon familiar approaches and experiment with ③<u>novel</u> combinations of whatever they have. In this sense, scarcity ④<u>restricts</u> the imagination, pushing people toward solutions that comfort would never have ⑤<u>revealed</u>.`,
+    options: ["①", "②", "③", "④", "⑤"],
+    answer: 3
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let selectedOptionIndex = -1;
+const results = []; // {type, correct}
+
+const startScreen = document.getElementById('start-screen');
+const quizScreen = document.getElementById('quiz-screen');
+const resultScreen = document.getElementById('result-screen');
+const questionText = document.getElementById('question-text');
+const optionsContainer = document.getElementById('options-container');
+const nextBtn = document.getElementById('next-btn');
+const progress = document.getElementById('progress');
+const typeStamp = document.getElementById('type-stamp');
+
+function startTest(){
+  startScreen.classList.add('hidden');
+  quizScreen.classList.remove('hidden');
+  quizScreen.classList.add('screen-in');
+  loadQuestion();
+}
+
+function loadQuestion(){
+  selectedOptionIndex = -1;
+  nextBtn.classList.add('hidden');
+  const qData = questions[currentQ];
+  progress.innerText = `File ${currentQ+1} of ${questions.length}`;
+  typeStamp.innerText = qData.type;
+  questionText.innerHTML = qData.q;
+  optionsContainer.innerHTML = '';
+  qData.options.forEach((opt, index) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    btn.innerHTML = opt;
+    btn.onclick = () => selectOption(btn, index);
+    optionsContainer.appendChild(btn);
+  });
+  window.scrollTo(0,0);
+}
+
+function selectOption(btn, index){
+  optionsContainer.querySelectorAll('.option').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedOptionIndex = index;
+  nextBtn.classList.remove('hidden');
+  nextBtn.innerText = (currentQ === questions.length - 1) ? '진단 결과 보기' : '다음 문항';
+}
+
+function nextQuestion(){
+  const correct = selectedOptionIndex === questions[currentQ].answer;
+  if (correct) score++;
+  results.push({ type: questions[currentQ].type, correct });
+  currentQ++;
+  if (currentQ < questions.length) loadQuestion();
+  else showResult();
+}
+
+function showResult(){
+  quizScreen.classList.add('hidden');
+  resultScreen.classList.remove('hidden');
+  resultScreen.classList.add('screen-in');
+  document.getElementById('score-display').innerText = score;
+
+  const rows = document.getElementById('type-rows');
+  rows.innerHTML = '';
+  results.forEach(r => {
+    const row = document.createElement('div');
+    row.className = 'tr-row';
+    row.innerHTML = `<span>${r.type}</span><span class="tr-mark ${r.correct ? 'ok' : 'miss'}">${r.correct ? 'PASS' : 'CHECK'}</span>`;
+    rows.appendChild(row);
+  });
+
+  let feedback = "";
+  if (score === 5){
+    feedback = "<strong>완벽합니다. 1등급의 감각이 이미 있습니다.</strong><br><br>지금 필요한 건 양치기가 아니라, 실전 압박 속에서도 이 정확도가 무너지지 않게 만드는 훈련입니다. 킬러 유형 오답률 0%를 만드는 마지막 단계 — 여기서부터가 제 영역입니다.";
+  } else if (score >= 3){
+    feedback = "<strong>해석은 되는데, 함정에 걸리는 단계입니다.</strong><br><br>위 진단표에서 CHECK가 뜬 유형을 보세요. 평가원은 정확히 그 지점을 노립니다. '왜 그 매력적인 오답을 골랐는가'의 원인을 뿌리부터 분석하는 것 — 그게 3등급과 1등급의 차이입니다.";
+  } else {
+    feedback = "<strong>지금은 단어의 파편으로 '감'에 의존해 읽고 있을 확률이 높습니다.</strong><br><br>나쁜 소식이 아닙니다. 오히려 잘못된 습관이 굳기 전에 발견한 겁니다. 구문과 논리 구조부터 다시 쌓는 1:1 밀착 설계가 가장 빠른 길입니다.";
+  }
+  document.getElementById('feedback-text').innerHTML = feedback;
+}
+
+function goToDM(){
+  window.open(`https://ig.me/m/${INSTAGRAM_ID}`, '_blank');
+}
+</script>
+</body>
+</html>
