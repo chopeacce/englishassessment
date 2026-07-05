@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>수능 영어 1등급 진단 테스트</title>
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #2b6cb0;
+            --bg-color: #f7fafc;
+            --text-color: #2d3748;
+        }
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px; /* 모바일 최적화 폭 */
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        /* 화면 숨김 처리 */
+        .hidden { display: none !important; }
+        
+        /* 시작 화면 */
+        #start-screen { text-align: center; margin-top: 50px; }
+        #start-screen h2 { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 10px; }
+        #start-screen p { color: #718096; line-height: 1.6; margin-bottom: 30px; }
+        
+        /* 버튼 공통 */
+        .btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+        .btn:hover { background-color: var(--primary-color); }
+        
+        /* 퀴즈 화면 */
+        #progress { text-align: right; font-size: 0.9rem; color: #a0aec0; margin-bottom: 15px; font-weight: bold; }
+        .question-box {
+            background-color: var(--bg-color);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .options { display: flex; flex-direction: column; gap: 10px; }
+        .option {
+            background-color: white;
+            border: 1px solid #cbd5e0;
+            padding: 12px 15px;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .option:hover { background-color: #ebf8ff; border-color: var(--secondary-color); }
+        .option.selected { background-color: var(--secondary-color); color: white; border-color: var(--secondary-color); }
+        
+        /* 결과 화면 */
+        #result-screen { text-align: center; margin-top: 30px; }
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0 auto 20px auto;
+        }
+        .feedback-text { font-size: 1.1rem; line-height: 1.6; margin-bottom: 30px; font-weight: 500; }
+        .dm-btn { background-color: #E1306C; /* 인스타그램 색상 */ margin-top: 10px; }
+        .dm-btn:hover { background-color: #C13584; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🏆 프리미엄 수능 영어 진단</h1>
+    </header>
+
+    <div class="content">
+        <!-- 시작 화면 -->
+        <div id="start-screen">
+            <h2>나의 진짜 영어 실력은?</h2>
+            <p>최신 수능 트렌드를 반영한 5개의 핵심 문항으로<br>현재의 등급과 취약점을 정확히 진단해 드립니다.<br>(소요 시간: 약 3분)</p>
+            <button class="btn" onclick="startTest()">테스트 시작하기</button>
+        </div>
+
+        <!-- 퀴즈 화면 -->
+        <div id="quiz-screen" class="hidden">
+            <div id="progress">1 / 5</div>
+            <div class="question-box" id="question-text">
+                문제 텍스트가 여기에 표시됩니다.
+            </div>
+            <div class="options" id="options-container">
+                <!-- 보기 버튼들이 JavaScript로 생성됨 -->
+            </div>
+            <button class="btn hidden" id="next-btn" onclick="nextQuestion()" style="margin-top: 20px;">다음 문항</button>
+        </div>
+
+        <!-- 결과 화면 -->
+        <div id="result-screen" class="hidden">
+            <div class="score-circle">
+                <span id="score-display">0</span>/5
+            </div>
+            <div class="feedback-text" id="feedback-text">
+                피드백 텍스트
+            </div>
+            <p style="font-size:0.9rem; color:#718096; margin-bottom:20px;">
+                정확한 약점 분석과 맞춤형 커리큘럼이 궁금하다면<br>지금 바로 상담을 신청하세요.
+            </p>
+            <button class="btn dm-btn" onclick="goToDM()">💬 인스타그램 DM으로 결과 상담하기</button>
+            <button class="btn" style="background-color: #edf2f7; color: #4a5568; margin-top: 10px;" onclick="location.reload()">다시 풀기</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 🔥 여기에 본인의 인스타그램 ID를 입력하세요! (예: 'english_tutor_pro')
+    const INSTAGRAM_ID = '본인의인스타아이디를여기에넣으세요'; 
+
+    // 수능 영어 미니 모의고사 문항 데이터 (어법, 빈칸, 순서 등)
+    const questions = [
+        {
+            q: "1. 다음 글의 밑줄 친 부분 중, 어법상 <u>틀린</u> 것은?<br><br>Many researchers have found that people are more likely to ①<u>accept</u> an offer if it is presented in a positive way. This framing effect is so powerful that it can make people ②<u>to choose</u> options they would normally avoid.",
+            options: ["① accept", "② to choose"],
+            answer: 1 // 인덱스 1 (두 번째 옵션)이 정답 (make는 사역동사이므로 동사원형 choose가 와야 함)
+        },
+        {
+            q: "2. 다음 빈칸에 들어갈 말로 가장 적절한 것은?<br><br>In an increasingly digital world, the value of physical, tangible objects has not disappeared. Rather, as everything becomes virtual, people crave things they can actually touch. In short, the digital revolution has unexpectedly increased the appeal of ____________.",
+            options: ["materiality (물질성)", "efficiency (효율성)", "complexity (복잡성)", "isolation (고립)"],
+            answer: 0
+        },
+        {
+            q: "3. 글의 흐름으로 보아, 주어진 문장이 들어가기에 가장 적절한 곳은?<br><br>[주어진 문장] However, when the temperature drops sharply, they adopt a completely different strategy.<br><br>Certain insects have unique ways to survive the winter. (A) Some migrate to warmer regions before the cold hits. (B) They produce antifreeze proteins to prevent their bodily fluids from freezing. (C)",
+            options: ["(A)", "(B)", "(C)"],
+            answer: 1 // (B)에 들어가야 앞의 이동(migrate)과 대비되는 온도 급강하 시의 새로운 전략(부동 단백질 생성)이 자연스럽게 연결됨
+        },
+        {
+            q: "4. 다음 글의 요지로 가장 적절한 것은?<br><br>While multi-tasking might feel productive, neurological studies show our brains are not equipped to handle multiple complex tasks simultaneously. We are simply switching our attention rapidly, which drains cognitive energy and reduces overall task quality.",
+            options: ["멀티태스킹은 뇌의 인지적 에너지를 고갈시키고 효율을 떨어뜨린다.", "다양한 업무 경험은 뇌 신경망 발달에 긍정적인 영향을 미친다.", "복잡한 작업일수록 여러 명이 분담해서 처리하는 것이 낫다."],
+            answer: 0
+        },
+        {
+            q: "5. 다음 문맥상 낱말의 쓰임이 적절하지 <u>않은</u> 것은?<br><br>Innovation often emerges from constraint. When resources are ①<u>plentiful</u>, companies rarely feel the need to change their existing processes. It is only when they face strict limitations that they are forced to be ②<u>creative</u> and find ③<u>conventional</u> solutions.",
+            options: ["① plentiful", "② creative", "③ conventional"],
+            answer: 2 // 제약이 있을 때 혁신이 나오므로, '기존의/관습적인(conventional)' 해결책이 아니라 '새로운/혁신적인' 해결책이어야 함.
+        }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+    let selectedOptionIndex = -1;
+
+    const startScreen = document.getElementById('start-screen');
+    const quizScreen = document.getElementById('quiz-screen');
+    const resultScreen = document.getElementById('result-screen');
+    const questionText = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const nextBtn = document.getElementById('next-btn');
+    const progress = document.getElementById('progress');
+
+    function startTest() {
+        startScreen.classList.add('hidden');
+        quizScreen.classList.remove('hidden');
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        selectedOptionIndex = -1;
+        nextBtn.classList.add('hidden');
+        progress.innerText = `${currentQ + 1} / ${questions.length}`;
+        
+        const qData = questions[currentQ];
+        questionText.innerHTML = qData.q;
+        optionsContainer.innerHTML = '';
+
+        qData.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'option';
+            btn.innerHTML = opt;
+            btn.onclick = () => selectOption(btn, index);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function selectOption(btn, index) {
+        // 모든 옵션 선택 해제
+        const allOptions = optionsContainer.querySelectorAll('.option');
+        allOptions.forEach(b => b.classList.remove('selected'));
+        
+        // 현재 선택 표시
+        btn.classList.add('selected');
+        selectedOptionIndex = index;
+        
+        // 다음 버튼 활성화
+        nextBtn.classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+        // 정답 체크
+        if (selectedOptionIndex === questions[currentQ].answer) {
+            score++;
+        }
+
+        currentQ++;
+        if (currentQ < questions.length) {
+            loadQuestion();
+        } else {
+            showResult();
+        }
+    }
+
+    function showResult() {
+        quizScreen.classList.add('hidden');
+        resultScreen.classList.remove('hidden');
+        
+        document.getElementById('score-display').innerText = score;
+        
+        let feedback = "";
+        if (score === 5) {
+            feedback = "✨ <strong>완벽합니다! 1등급 포텐셜!</strong><br><br>기본기와 감각이 매우 뛰어납니다. 킬러 문항(빈칸/순서/삽입)에서의 오답률을 0%로 만드는 고난도 스킬 훈련만 병행한다면 안정적인 만점이 가능합니다.";
+        } else if (score >= 3) {
+            feedback = "📈 <strong>매력적인 오답에 빠지기 쉬운 단계!</strong><br><br>기본적인 해석은 가능하지만, 평가원이 파놓은 함정(Paraphrasing, 어법)에 걸릴 위험이 있습니다. 정확한 '구문 독해'와 '논리적 전개'를 파악하는 체계적인 훈련이 필요합니다.";
+        } else {
+            feedback = "🧱 <strong>탄탄한 기본기 공사가 필요한 시기!</strong><br><br>단어의 파편만으로 감으로 해석하고 있을 확률이 높습니다. 필수 어휘와 핵심 구문부터 확실하게 짚고 넘어가는 1:1 밀착 관리가 성적 향상의 지름길입니다.";
+        }
+        
+        document.getElementById('feedback-text').innerHTML = feedback;
+    }
+
+    function goToDM() {
+        // 인스타그램 DM 링크로 이동
+        window.open(`https://ig.me/m/${INSTAGRAM_ID}`, '_blank');
+    }
+</script>
+</body>
+</html>
